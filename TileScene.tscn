@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb6hsl6sj34na"]
+
+[ext_resource type="Texture2D" uid="uid://dw18u5c6ryjmq" path="res://PrototypeBlocks/InteractableBlock.png" id="1_es6uj"]
+[ext_resource type="Script" path="res://TileBody.gd" id="1_exb0i"]
+
+[node name="TileScene" type="Node2D"]
+
+[node name="TileBody" type="AnimatableBody2D" parent="." node_paths=PackedStringArray("menu")]
+script = ExtResource("1_exb0i")
+menu = NodePath("../PopupMenu")
+
+[node name="TileSprite" type="Sprite2D" parent="TileBody"]
+texture_filter = 1
+texture = ExtResource("1_es6uj")
+
+[node name="TileCollision" type="CollisionPolygon2D" parent="TileBody"]
+visible = false
+polygon = PackedVector2Array(-2, -12, 2, -12, 2, -11, 4, -11, 4, -10, 6, -10, 6, -9, 8, -9, 8, -8, 10, -8, 10, -7, 12, -7, 12, 7, 10, 7, 10, 8, 8, 8, 8, 9, 6, 9, 6, 10, 4, 10, 4, 11, 2, 11, 2, 12, -2, 12, -2, 11, -4, 11, -4, 10, -6, 10, -6, 9, -8, 9, -8, 8, -10, 8, -10, 7, -12, 7, -12, -7, -10, -7, -10, -8, -8, -8, -8, -9, -6, -9, -6, -10, -4, -10, -4, -11, -2, -11)
+
+[node name="Area2D" type="Area2D" parent="TileBody"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileBody/Area2D"]
+polygon = PackedVector2Array(-2, -12, 2, -12, 12, -7, 2, -1, -2, -1, -12, -6, -12, -7)
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+title = "Plant Menu"
+size = Vector2i(132, 95)
+visible = true
+item_count = 3
+item_0/text = "Grow Leaves"
+item_0/id = 0
+item_1/text = "Grow Roots"
+item_1/id = 1
+item_2/text = "Spread Seeds"
+item_2/id = 2
+
+[connection signal="input_event" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_mouse_exited"]
