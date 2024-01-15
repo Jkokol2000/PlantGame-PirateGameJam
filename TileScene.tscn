@@ -1,31 +1,114 @@
-[gd_scene load_steps=3 format=3 uid="uid://cb6hsl6sj34na"]
+[gd_scene load_steps=15 format=3 uid="uid://cb6hsl6sj34na"]
 
-[ext_resource type="Texture2D" uid="uid://dw18u5c6ryjmq" path="res://PrototypeBlocks/InteractableBlock.png" id="1_es6uj"]
 [ext_resource type="Script" path="res://TileBody.gd" id="1_exb0i"]
+[ext_resource type="Script" path="res://Plant_State_Machine.gd" id="2_pubgi"]
+[ext_resource type="Script" path="res://base_state.gd" id="3_ots8p"]
+[ext_resource type="Script" path="res://plant_state.gd" id="4_aiujf"]
+[ext_resource type="Script" path="res://root_state.gd" id="5_d26gk"]
+[ext_resource type="Texture2D" uid="uid://blbebai4humnn" path="res://PrototypeBlocks/MCBlocksBlackOutline.png" id="6_crenc"]
+[ext_resource type="Script" path="res://vine_state.gd" id="6_ly8mc"]
+[ext_resource type="Script" path="res://both_state.gd" id="7_x0q4x"]
 
-[node name="TileScene" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqtls"]
+atlas = ExtResource("6_crenc")
+region = Rect2(0, 0, 32, 32)
 
-[node name="TileBody" type="AnimatableBody2D" parent="." node_paths=PackedStringArray("menu")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qusbo"]
+atlas = ExtResource("6_crenc")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5hj8"]
+atlas = ExtResource("6_crenc")
+region = Rect2(416, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxeun"]
+atlas = ExtResource("6_crenc")
+region = Rect2(448, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ek3o"]
+atlas = ExtResource("6_crenc")
+region = Rect2(384, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6rgtp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqtls")
+}],
+"loop": true,
+"name": &"Base",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qusbo")
+}],
+"loop": true,
+"name": &"Plant",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5hj8")
+}],
+"loop": true,
+"name": &"Rooted",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxeun")
+}],
+"loop": true,
+"name": &"RootedAndVined",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ek3o")
+}],
+"loop": true,
+"name": &"Vined",
+"speed": 5.0
+}]
+
+[node name="TileBody" type="AnimatableBody2D" node_paths=PackedStringArray("menu", "CastArray")]
 script = ExtResource("1_exb0i")
-menu = NodePath("../PopupMenu")
+menu = NodePath("PopupMenu")
+CastArray = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
 
-[node name="TileSprite" type="Sprite2D" parent="TileBody"]
-texture_filter = 1
-texture = ExtResource("1_es6uj")
+[node name="Plant_State_Machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_pubgi")
+starting_state = NodePath("base_state")
 
-[node name="TileCollision" type="CollisionPolygon2D" parent="TileBody"]
-visible = false
-polygon = PackedVector2Array(-2, -12, 2, -12, 2, -11, 4, -11, 4, -10, 6, -10, 6, -9, 8, -9, 8, -8, 10, -8, 10, -7, 12, -7, 12, 7, 10, 7, 10, 8, 8, 8, 8, 9, 6, 9, 6, 10, 4, 10, 4, 11, 2, 11, 2, 12, -2, 12, -2, 11, -4, 11, -4, 10, -6, 10, -6, 9, -8, 9, -8, 8, -10, 8, -10, 7, -12, 7, -12, -7, -10, -7, -10, -8, -8, -8, -8, -9, -6, -9, -6, -10, -4, -10, -4, -11, -2, -11)
+[node name="base_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("plant_state", "root_state", "vine_state")]
+script = ExtResource("3_ots8p")
+plant_state = NodePath("../plant_state")
+root_state = NodePath("../root_state")
+vine_state = NodePath("../vine_state")
+sprite_name = "Base"
 
-[node name="Area2D" type="Area2D" parent="TileBody"]
+[node name="plant_state" type="Node" parent="Plant_State_Machine"]
+script = ExtResource("4_aiujf")
+sprite_name = "Plant"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileBody/Area2D"]
-polygon = PackedVector2Array(-2, -12, 2, -12, 12, -7, 2, -1, -2, -1, -12, -6, -12, -7)
+[node name="root_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("both_state")]
+script = ExtResource("5_d26gk")
+both_state = NodePath("../both_state")
+sprite_name = "Rooted"
+
+[node name="vine_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("both_state")]
+script = ExtResource("6_ly8mc")
+both_state = NodePath("../both_state")
+sprite_name = "Vined"
+
+[node name="both_state" type="Node" parent="Plant_State_Machine"]
+script = ExtResource("7_x0q4x")
+sprite_name = "RootedAndVined"
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 title = "Plant Menu"
 size = Vector2i(132, 95)
-visible = true
 item_count = 3
 item_0/text = "Grow Leaves"
 item_0/id = 0
@@ -34,6 +117,28 @@ item_1/id = 1
 item_2/text = "Spread Seeds"
 item_2/id = 2
 
-[connection signal="input_event" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_input_event"]
-[connection signal="mouse_entered" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="TileBody/Area2D" to="TileBody" method="_on_area_2d_mouse_exited"]
+[node name="TileSprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_6rgtp")
+animation = &"Base"
+
+[node name="TileCollision" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-2, -12, 2, -12, 2, -11, 4, -11, 4, -10, 6, -10, 6, -9, 8, -9, 8, -8, 10, -8, 10, -7, 12, -7, 12, 7, 10, 7, 10, 8, 8, 8, 8, 9, 6, 9, 6, 10, 4, 10, 4, 11, 2, 11, 2, 12, -2, 12, -2, 11, -4, 11, -4, 10, -6, 10, -6, 9, -8, 9, -8, 8, -10, 8, -10, 7, -12, 7, -12, -7, -10, -7, -10, -8, -8, -8, -8, -9, -6, -9, -6, -10, -4, -10, -4, -11, -2, -11)
+
+[node name="MouseDetection" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MouseDetection"]
+polygon = PackedVector2Array(-2, -12, 2, -12, 12, -7, 2, -1, -2, -1, -12, -6, -12, -7)
+
+[node name="AdjecentPlantDetection" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AdjecentPlantDetection"]
+polygon = PackedVector2Array(0, -14, -15, -7, 0, 1, 15, -7)
+
+[connection signal="index_pressed" from="PopupMenu" to="." method="_on_popup_menu_index_pressed"]
+[connection signal="input_event" from="MouseDetection" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="MouseDetection" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="MouseDetection" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="AdjecentPlantDetection" to="Plant_State_Machine/plant_state" method="_on_adjecent_plant_detection_body_entered"]

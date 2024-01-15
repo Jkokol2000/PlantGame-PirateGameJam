@@ -5,7 +5,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="TileMap" parent="." instance=ExtResource("1_827gc")]
-position = Vector2(-14, -6)
+position = Vector2(-13, -7)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(210, 137)
