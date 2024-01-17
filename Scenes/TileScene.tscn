@@ -1,17 +1,22 @@
-[gd_scene load_steps=15 format=3 uid="uid://cb6hsl6sj34na"]
+[gd_scene load_steps=17 format=3 uid="uid://cb6hsl6sj34na"]
 
-[ext_resource type="Script" path="res://TileBody.gd" id="1_exb0i"]
-[ext_resource type="Script" path="res://Plant_State_Machine.gd" id="2_pubgi"]
-[ext_resource type="Script" path="res://base_state.gd" id="3_ots8p"]
-[ext_resource type="Script" path="res://plant_state.gd" id="4_aiujf"]
-[ext_resource type="Script" path="res://root_state.gd" id="5_d26gk"]
+[ext_resource type="Script" path="res://Scripts/TileBody.gd" id="1_uaamc"]
+[ext_resource type="Script" path="res://Scripts/Plant_State_Machine.gd" id="2_1aedh"]
+[ext_resource type="Script" path="res://States/base_state.gd" id="3_dqyry"]
+[ext_resource type="Script" path="res://States/plant_state.gd" id="4_5wlcx"]
+[ext_resource type="Script" path="res://States/root_state.gd" id="5_ldv5b"]
 [ext_resource type="Texture2D" uid="uid://blbebai4humnn" path="res://PrototypeBlocks/MCBlocksBlackOutline.png" id="6_crenc"]
-[ext_resource type="Script" path="res://vine_state.gd" id="6_ly8mc"]
-[ext_resource type="Script" path="res://both_state.gd" id="7_x0q4x"]
+[ext_resource type="Script" path="res://States/vine_state.gd" id="6_m7r48"]
+[ext_resource type="Script" path="res://States/both_state.gd" id="7_lrvpj"]
+[ext_resource type="Script" path="res://Scenes/UpgradeManager.gd" id="9_06w2h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jqtls"]
 atlas = ExtResource("6_crenc")
 region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2r6x"]
+atlas = ExtResource("6_crenc")
+region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qusbo"]
 atlas = ExtResource("6_crenc")
@@ -37,6 +42,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"Base",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2r6x")
+}],
+"loop": true,
+"name": &"Corrupt",
 "speed": 5.0
 }, {
 "frames": [{
@@ -72,38 +85,38 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="TileBody" type="AnimatableBody2D" node_paths=PackedStringArray("menu", "CastArray")]
-script = ExtResource("1_exb0i")
+[node name="TileBody" type="AnimatableBody2D" node_paths=PackedStringArray("upgrade_manager", "menu")]
+script = ExtResource("1_uaamc")
+upgrade_manager = NodePath("UpgradeManager")
 menu = NodePath("PopupMenu")
-CastArray = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
 
 [node name="Plant_State_Machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
-script = ExtResource("2_pubgi")
+script = ExtResource("2_1aedh")
 starting_state = NodePath("base_state")
 
 [node name="base_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("plant_state", "root_state", "vine_state")]
-script = ExtResource("3_ots8p")
+script = ExtResource("3_dqyry")
 plant_state = NodePath("../plant_state")
 root_state = NodePath("../root_state")
 vine_state = NodePath("../vine_state")
 sprite_name = "Base"
 
 [node name="plant_state" type="Node" parent="Plant_State_Machine"]
-script = ExtResource("4_aiujf")
+script = ExtResource("4_5wlcx")
 sprite_name = "Plant"
 
 [node name="root_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("both_state")]
-script = ExtResource("5_d26gk")
+script = ExtResource("5_ldv5b")
 both_state = NodePath("../both_state")
 sprite_name = "Rooted"
 
 [node name="vine_state" type="Node" parent="Plant_State_Machine" node_paths=PackedStringArray("both_state")]
-script = ExtResource("6_ly8mc")
+script = ExtResource("6_m7r48")
 both_state = NodePath("../both_state")
 sprite_name = "Vined"
 
 [node name="both_state" type="Node" parent="Plant_State_Machine"]
-script = ExtResource("7_x0q4x")
+script = ExtResource("7_lrvpj")
 sprite_name = "RootedAndVined"
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
@@ -120,7 +133,7 @@ item_2/id = 2
 [node name="TileSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_6rgtp")
-animation = &"Base"
+animation = &"Corrupt"
 
 [node name="TileCollision" type="CollisionPolygon2D" parent="."]
 visible = false
@@ -135,10 +148,17 @@ polygon = PackedVector2Array(-2, -12, 2, -12, 12, -7, 2, -1, -2, -1, -12, -6, -1
 monitoring = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AdjecentPlantDetection"]
-polygon = PackedVector2Array(0, -14, -15, -7, 0, 1, 15, -7)
+polygon = PackedVector2Array(0, -12, -12, -7, 0, -1, 12, -7)
+
+[node name="UpgradeManager" type="Node2D" parent="." node_paths=PackedStringArray("base_state")]
+script = ExtResource("9_06w2h")
+base_state = NodePath("../Plant_State_Machine/base_state")
 
 [connection signal="index_pressed" from="PopupMenu" to="." method="_on_popup_menu_index_pressed"]
 [connection signal="input_event" from="MouseDetection" to="." method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="MouseDetection" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="MouseDetection" to="." method="_on_area_2d_mouse_exited"]
 [connection signal="body_entered" from="AdjecentPlantDetection" to="Plant_State_Machine/plant_state" method="_on_adjecent_plant_detection_body_entered"]
+[connection signal="body_entered" from="AdjecentPlantDetection" to="Plant_State_Machine/root_state" method="_on_adjecent_plant_detection_body_entered"]
+[connection signal="body_entered" from="AdjecentPlantDetection" to="Plant_State_Machine/vine_state" method="_on_adjecent_plant_detection_body_entered"]
+[connection signal="body_entered" from="AdjecentPlantDetection" to="Plant_State_Machine/both_state" method="_on_adjecent_plant_detection_body_entered"]

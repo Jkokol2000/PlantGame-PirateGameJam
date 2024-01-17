@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://mobpr1v524os"]
+
+[ext_resource type="Script" path="res://Scripts/Upgrade.gd" id="1_u3u2u"]
+
+[resource]
+script = ExtResource("1_u3u2u")
+upgrade_type = "Sprite"
+new_sprite = "Corrupt"
+sun_cost = 5
+water_cost = 5
+nut_cost = 5

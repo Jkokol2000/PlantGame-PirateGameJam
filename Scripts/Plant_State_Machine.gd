@@ -4,7 +4,9 @@ extends Node
 @export
 var starting_state: State
 
-var current_state: State
+var current_state: State:
+	get:
+		return current_state
 
 func init(parent: AnimatableBody2D, Sprites: AnimatedSprite2D) -> void:
 	for child in get_children():
@@ -12,6 +14,7 @@ func init(parent: AnimatableBody2D, Sprites: AnimatedSprite2D) -> void:
 		child.sprite = Sprites
 	
 	change_state(starting_state)
+	
 	
 func change_state(new_state: State) -> void:
 	if current_state:

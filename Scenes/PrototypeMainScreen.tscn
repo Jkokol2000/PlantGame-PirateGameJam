@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnyjukhk8iw1f"]
+
+[ext_resource type="PackedScene" uid="uid://bvrurna24xu8p" path="res://Scenes/IsoTest.tscn" id="1_827gc"]
+[ext_resource type="Script" path="res://Scenes/RichTextLabel.gd" id="1_h8gl5"]
+[ext_resource type="Script" path="res://Scripts/CurrencyTracker.gd" id="1_qm7yu"]
+[ext_resource type="Script" path="res://Scenes/SunLabel.gd" id="2_ed1rb"]
+[ext_resource type="Resource" uid="uid://mobpr1v524os" path="res://Resources/change_sprite.tres" id="2_lut72"]
+[ext_resource type="Script" path="res://Scenes/NutrientLabel.gd" id="3_m6yry"]
+[ext_resource type="Script" path="res://Scenes/UpgradeMenu.gd" id="7_g4dyu"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StateTracker" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("1_qm7yu")
+tilemap = NodePath("../TileMap")
+upgrade_list = [ExtResource("2_lut72")]
+
+[node name="WaterLabel" type="RichTextLabel" parent="."]
+offset_right = 119.0
+offset_bottom = 20.0
+scale = Vector2(0.956622, 1)
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("1_h8gl5")
+
+[node name="SunLabel" type="RichTextLabel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 310.0
+offset_right = 419.0
+offset_bottom = 20.0
+grow_horizontal = 0
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("2_ed1rb")
+
+[node name="NutrientLabel" type="RichTextLabel" parent="."]
+offset_left = 148.0
+offset_right = 259.0
+offset_bottom = 20.0
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("3_m6yry")
+
+[node name="TileMap" parent="." instance=ExtResource("1_827gc")]
+position = Vector2(-7, 0)
+layer_0/tile_data = PackedInt32Array(1441799, 1, 131072, 1376262, 1, 131072, 1310726, 1, 131072, 1245189, 1, 131072, 1179653, 1, 131072, 1114116, 1, 131072, 1179652, 1, 131072, 1441798, 1, 131072, 917515, 1, 131072, 851978, 1, 131072, 786442, 1, 131072, 720905, 1, 131072, 655369, 1, 131072, 589832, 1, 131072, 655368, 1, 131072, 589831, 1, 131072, 655367, 1, 131072, 720902, 1, 131072, 786438, 1, 131072, 851974, 1, 131072, 917510, 1, 131072, 983045, 1, 131072, 1048581, 1, 131072, 1114117, 1, 131072, 1048582, 1, 131072, 1114118, 1, 131072, 1179655, 1, 131072, 1245191, 1, 131072, 1310728, 1, 131072, 1376263, 1, 131072, 1310727, 1, 131072, 1179654, 1, 131072, 1245190, 1, 131072, 983050, 1, 131072, 917514, 1, 131072, 983049, 1, 131072, 1048585, 1, 131072, 1114121, 1, 131072, 1179657, 1, 131072, 1245192, 1, 131072, 1048586, 1, 131072, 1114120, 1, 131072, 1048584, 1, 131072, 1114119, 1, 131072, 1048583, 1, 131072, 983047, 1, 131072, 917511, 1, 131072, 851975, 1, 131072, 786439, 1, 131072, 983046, 1, 131072, 1179656, 1, 131072, 720903, 1, 131072, 786440, 1, 131072, 786441, 1, 131072, 851976, 1, 131072, 720904, 1, 131072, 851977, 1, 131072, 917513, 1, 131072, 917512, 1, 131072, 983048, 1, 131072, 1900553, 1, 131072, 1310734, 1, 131072, 1835018, 1, 131072, 1769482, 1, 131072, 1703947, 1, 131072, 1638411, 1, 131072, 1572876, 1, 131072, 1507340, 1, 131072, 1441805, 1, 131072, 1376269, 1, 131072, 1245197, 1, 131072, 1310733, 1, 131072, 1310732, 1, 131072, 1376267, 1, 131072, 1441803, 1, 131072, 1507338, 1, 131072, 1572874, 1, 131072, 1638410, 1, 131072, 1703946, 1, 131072, 1769481, 1, 131072, 1835017, 1, 131072, 1900552, 1, 131072, 1376268, 1, 131072, 1441804, 1, 131072, 1507339, 1, 131072, 1572875, 1, 131072, 1769480, 1, 131072, 1835016, 1, 131072, 1703944, 1, 131072, 1638408, 1, 131072, 1572873, 1, 131072, 1507337, 1, 131072, 1441802, 1, 131072, 1376266, 1, 131072, 1245196, 1, 131072, 1179661, 1, 131072, 1638409, 1, 131072, 1703945, 1, 131072, 1310731, 1, 131072, 1245195, 1, 131072, 1179660, 1, 131072, 1114124, 1, 131072, 1048588, 1, 131072, 1114123, 1, 131072, 1179659, 1, 131072, 1245194, 1, 131072, 1310730, 1, 131072, 1376265, 1, 131072, 1441801, 1, 131072, 1572872, 1, 131072, 1638407, 1, 131072, 1507336, 1, 131072, 983051, 1, 131072, 1048587, 1, 131072, 1114122, 1, 131072, 1179658, 1, 131072, 1245193, 1, 131072, 1310729, 1, 131072, 1507335, 1, 131072, 1572871, 1, 131072, 1507334, 1, 131072, 1441800, 1, 131072, 1376264, 1, 131072, 2097159, 1, 131072, 2031623, 1, 131072, 2031622, 1, 131072, 1966087, 1, 131072, 1900550, 1, 131072, 1900549, 1, 131072, 1835013, 1, 131072, 1769477, 1, 131072, 1703941, 1, 131072, 1638404, 1, 131072, 1572868, 1, 131072, 1835014, 1, 131072, 1966086, 1, 131072, 1769476, 1, 131072, 1703940, 1, 131072, 1638403, 1, 131072, 1572867, 1, 131072, 1507330, 1, 131072, 1441795, 1, 131072, 1441794, 1, 131072, 1376258, 1, 131072, 1310723, 1, 131072, 1376259, 1, 131072, 1376260, 1, 131072, 1441797, 1, 131072, 1507333, 1, 131072, 1572869, 1, 131072, 1638405, 1, 131072, 1703942, 1, 131072, 1769478, 1, 131072, 1835015, 1, 131072, 1900551, 1, 131072, 2097160, 1, 131072, 1507331, 1, 131072, 1245187, 1, 131072, 1310724, 1, 131072, 1245188, 1, 131072, 1310725, 1, 131072, 1376261, 1, 131072, 1769479, 1, 131072, 1703943, 1, 131072, 1638406, 1, 131072, 1572870, 1, 131072, 1441796, 1, 131072, 1507332, 1, 131072, 1966088, 1, 131072, 1966089, 1, 131072, 2031624, 1, 131072, 2162695, 1, 65536)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(211, 130)
+zoom = Vector2(1.19, 1.19)
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+position = Vector2i(100, 30)
+size = Vector2i(220, 200)
+item_count = 4
+item_0/text = "ChangeSprites"
+item_0/id = 0
+item_1/text = "Increase Water 10"
+item_1/id = 1
+item_2/text = "Incrase Sun 10"
+item_2/id = 2
+item_3/text = "Increase Nutrients 10"
+item_3/id = 3
+script = ExtResource("7_g4dyu")
+upgrade_dict = {
+0: ExtResource("2_lut72")
+}
+
+[node name="Button" type="Button" parent="."]
+offset_top = 225.0
+offset_right = 82.0
+offset_bottom = 256.0
+toggle_mode = true
+text = "Upgrades"
+
+[connection signal="id_pressed" from="PopupMenu" to="PopupMenu" method="_on_id_pressed"]
+[connection signal="upgrade_chosen" from="PopupMenu" to="StateTracker" method="_on_popup_menu_upgrade_chosen"]
+[connection signal="button_down" from="Button" to="PopupMenu" method="_on_button_button_down"]

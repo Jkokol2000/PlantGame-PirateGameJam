@@ -11,7 +11,7 @@ var vine_state := State
 
 func enter() -> void:
 	super()
-		
+	
 func process_input(event: InputEvent):
 	if parent.name == '@AnimatableBody2D@1032':
 		parent.growing = "Plant"

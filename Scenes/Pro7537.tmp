@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnyjukhk8iw1f"]
+
+[ext_resource type="PackedScene" uid="uid://bvrurna24xu8p" path="res://Scenes/IsoTest.tscn" id="1_827gc"]
+[ext_resource type="Script" path="res://Scenes/RichTextLabel.gd" id="1_h8gl5"]
+[ext_resource type="Script" path="res://Scripts/CurrencyTracker.gd" id="1_qm7yu"]
+[ext_resource type="Script" path="res://Scenes/SunLabel.gd" id="2_ed1rb"]
+[ext_resource type="Script" path="res://Scenes/NutrientLabel.gd" id="3_m6yry"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CurrencyTracker" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("1_qm7yu")
+tilemap = NodePath("../TileMap")
+
+[node name="WaterLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("CurrencyTracker")]
+offset_right = 119.0
+offset_bottom = 20.0
+scale = Vector2(0.956622, 1)
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("1_h8gl5")
+CurrencyTracker = NodePath("../CurrencyTracker")
+
+[node name="SunLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("CurrencyTracker")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 310.0
+offset_right = 419.0
+offset_bottom = 20.0
+grow_horizontal = 0
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("2_ed1rb")
+CurrencyTracker = NodePath("../CurrencyTracker")
+
+[node name="NutrientLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("CurrencyTracker")]
+offset_left = 148.0
+offset_right = 259.0
+offset_bottom = 20.0
+theme_override_font_sizes/normal_font_size = 14
+text = "Water: 0"
+fit_content = true
+scroll_active = false
+script = ExtResource("3_m6yry")
+CurrencyTracker = NodePath("../CurrencyTracker")
+
+[node name="TileMap" parent="." instance=ExtResource("1_827gc")]
+position = Vector2(-13, -7)
+scale = Vector2(1.00533, 1.00194)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(211, 130)
+zoom = Vector2(1.19, 1.19)
