@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnyjukhk8iw1f"]
+[gd_scene load_steps=9 format=3 uid="uid://bnyjukhk8iw1f"]
 
 [ext_resource type="PackedScene" uid="uid://bvrurna24xu8p" path="res://Scenes/IsoTest.tscn" id="1_827gc"]
 [ext_resource type="Script" path="res://Scenes/RichTextLabel.gd" id="1_h8gl5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://mobpr1v524os" path="res://Resources/change_sprite.tres" id="2_lut72"]
 [ext_resource type="Script" path="res://Scenes/NutrientLabel.gd" id="3_m6yry"]
 [ext_resource type="Script" path="res://Scenes/UpgradeMenu.gd" id="7_g4dyu"]
+[ext_resource type="Script" path="res://Scenes/CycleLabel.gd" id="8_ibxns"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -80,6 +81,16 @@ offset_right = 82.0
 offset_bottom = 256.0
 toggle_mode = true
 text = "Upgrades"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 6.0
+offset_top = 22.0
+offset_right = 46.0
+offset_bottom = 62.0
+text = "Cycle : Morning"
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("8_ibxns")
 
 [connection signal="id_pressed" from="PopupMenu" to="PopupMenu" method="_on_id_pressed"]
 [connection signal="upgrade_chosen" from="PopupMenu" to="StateTracker" method="_on_popup_menu_upgrade_chosen"]
